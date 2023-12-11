@@ -13,6 +13,17 @@ public class Student {
 
     protected int classId;
 
+    public Student(int id, String studentName, LocalDate dateOfBirth, String email, String address, String phone, int classId) {
+        this.id = id;
+        this.studentName = studentName;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.className = className;
+        this.classId = classId;
+    }
+
     public Student(int id,
                    String studentName,
                    LocalDate dateOfBirth,

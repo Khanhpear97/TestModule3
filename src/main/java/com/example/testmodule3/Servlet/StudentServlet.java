@@ -33,6 +33,7 @@ public class StudentServlet extends HttpServlet {
                 }
                 break;
             case "update":
+                studentController.showFormEdit(req,resp);
                 break;
             default:
                 studentController.showListStudent(req, resp);
@@ -47,6 +48,7 @@ public class StudentServlet extends HttpServlet {
                 studentController.addStudent(req,resp);
                 break;
             case "update":
+                studentController.updateStudent(req,resp);
                 break;
         }
     }

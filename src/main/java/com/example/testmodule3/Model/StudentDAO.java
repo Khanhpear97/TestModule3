@@ -13,5 +13,7 @@ public interface StudentDAO {
 
     public List<ClassRoom> getClassRoom();
 
+    public Student getById(int id);
+
     List<Student> search(String key);
 }

@@ -98,16 +98,15 @@ public class StudentModel implements StudentDAO{
     @Override
     public void edit(Student student) {
         try {
-            String sql = "UPDATE sudent SET studentName = ?, dateOfBirth = ?, email = ?, address = ?, phone = ?, classId = ? WHERE id = ?  ";
+            String sql = "UPDATE student SET studentName = ?, dateOfBirth = ?, email = ?, address = ?, phone = ?, classId = ? WHERE id = ?  ";
             PreparedStatement statement = conn.prepareStatement(sql);
-            // gan gia tri cho tham so id
             statement.setString(1, student.getStudentName());
             statement.setDate(2, Date.valueOf(student.getDateOfBirth()));
             statement.setString(3, student.getEmail());
             statement.setString(4, student.getAddress());
             statement.setString(5, student.getPhone());
-            statement.setInt(5, student.getId());
-            // thu hien truy van
+            statement.setInt(6, student.getClassId());
+            statement.setInt(7, student.getId());
             statement.execute();
         }catch (SQLException e) {
             System.out.println("Update user fail" + e.getMessage());
@@ -140,5 +139,30 @@ public class StudentModel implements StudentDAO{
         }
 
         return students;
+    }
+
+    @Override
+    public Student getById(int id) {
+        Student student = null;
+        try {
+            String sql = "select s.studentName, s.dateOfBirth, s.email, s.address, s.phone, c.className from student s \n" +
+                    "join class c on s.classId = c.id where s.id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            while(rs.next()) {
+                String studentName = rs.getString(1);
+                LocalDate dateOfBirth = rs.getDate(2).toLocalDate();
+                String email = rs.getString(3);
+                String address = rs.getString(4);
+                String phone = rs.getString(5);
+                String className = rs.getString(6);
+                student = new Student(studentName, dateOfBirth, email, address, phone, className);
+            }
+        }catch (SQLException e) {
+            System.out.println("Get user fail" + e.getMessage());
+        }
+        return student;
     }
 }

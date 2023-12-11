@@ -60,4 +60,26 @@ public class StudentController {
         this.studentDAO.delete(id);
         resp.sendRedirect("/student");
     }
+
+    public void showFormEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<ClassRoom> classRooms = this.studentDAO.getClassRoom();
+        req.setAttribute("classRooms", classRooms);
+        int id = Integer.parseInt(req.getParameter("id"));
+        Student student = this.studentDAO.getById(id);
+        req.setAttribute("student", student);
+        RequestDispatcher view = req.getRequestDispatcher("views/students/edit.jsp");
+        view.forward(req, resp);
+    }
+
+    public void updateStudent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String name = req.getParameter("name");
+        String email = req.getParameter("email");
+        LocalDate dateOfBirth = LocalDate.parse(req.getParameter("date"));
+        String address = req.getParameter("address");
+        String phone = req.getParameter("phone");
+        int classId = Integer.parseInt(req.getParameter("class"));
+        Student student = new Student(name, dateOfBirth, email, address, phone, classId);
+        this.studentDAO.edit(student);
+        resp.sendRedirect("/student");
+    }
 }
